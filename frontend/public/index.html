@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task-Manager</title>
+</head>
+
+<body>
+    <h1>Task Manager</h1>
+    <br><br>
+
+    <p>Assign your task here to manage things Easily</p>
+
+    <br><br>
+
+    <form action="/api/tasks" method="POST">
+        <label for="taskName">TASK-NAME:</label>
+        <input type="text" id="taskName" name="taskName" required>
+
+        <br><br>
+
+        <label for="taskDiscription">TASK-DISCRIPTION:</label>
+        <input type="text" id="taskDiscription" name="taskDiscription" required>
+
+        <br><br>
+
+        <label for="taskAssign">TASK-ASSIGN:</label>
+        <input type="text" id="taskAssign" name="taskAssign" required>
+
+        <br><br>
+
+        <button type="submit">Submit</button>
+
+    </form>
+
+    <script>
+        const form = document.querySelector('form')
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+
+
+            const taskData = {
+                taskName: document.getElementById('taskName').value,
+                taskDiscription: document.getElementById('taskDiscription').value,
+                taskAssign: document.getElementById('taskAssign').value
+            };
+
+            try {
+
+                const response = await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(taskData)
+
+                })
+
+
+
+                const result = await response.json()
+
+                if (!response.ok) {
+
+                    throw new Error(result.message || "Request failed")
+
+
+                }
+
+                console.log(result);
+
+                alert(result.message)
+
+
+
+
+            } catch (error) {
+                console.log(error.message);
+
+                alert(error.message)
+
+            }
+
+
+
+        })
+    </script>
+
+</body>
+
+</html>
